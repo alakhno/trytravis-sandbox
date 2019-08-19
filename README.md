@@ -2,6 +2,19 @@
 
 [![Build Status](https://travis-ci.com/otus-devops-2019-05/alakhno_infra.svg?branch=master)](https://travis-ci.com/otus-devops-2019-05/alakhno_infra)
 
+# ДЗ - Занятие 13
+
+## 1. Не переиспользовать контейнер hw-test при запуске своих тестов
+
+Скрипт https://raw.githubusercontent.com/express42/otus-homeworks/2019-05/run.sh
+не создаёт контейнер hw-test для коммитов в ветку master. Поэтому этот контейнер
+нельзя переиспользовать для запуска своих тестов.
+
+Пример неудачного build'а: https://travis-ci.com/otus-devops-2019-05/alakhno_infra/builds/123326884
+
+Поэтому добавил в tests/run.sh создание отдельного контейнера hw-self-test и
+сети hw-self-test-net для запуска своих тестов.
+
 # ДЗ - Занятие 12
 
 ## 1. Отключение provisioner'ов в зависимости от значения переменной
