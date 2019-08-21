@@ -16,6 +16,7 @@ packer/files/variables.json
 *.retry
 service_account.json
 jdauphant.nginx
+ansible/roles/db
 vault.key
 
 # Vagrant & molecule

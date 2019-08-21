@@ -45,6 +45,22 @@ def test_port_listening(host):
     assert host.socket('tcp://0.0.0.0:27017').is_listening
 ``` 
 
+Создание VM для проверки роли:
+```shell script
+cd ansible/roles/db
+molecule create
+```
+
+Применение плейбука к VM:
+```shell script
+molecule converge
+```
+
+Запуск тестов:
+```shell script
+molecule verify
+```
+
 ## 4. Использование ролей db и app в плейбуках для сборки образов
 
 При использовании роли `db` в плейбуке `packer_db.yml` в packer шаблоне
@@ -67,6 +83,45 @@ def test_port_listening(host):
 ```
 packer build -var-file=packer/variables.json packer/db.json
 packer build -var-file=packer/variables.json packer/app.json
+```
+
+## 5. Перенос роли db в отдельный репозиторий
+
+Роль db вынесена в репозиторий https://github.com/alakhno/otus-ansible-role-db
+
+В requirements.yml окружений stage и prod добавлена соответствутющая зависимость:
+```yaml
+- src: https://github.com/alakhno/otus-ansible-role-db.git
+  name: db
+```
+
+Установка зависимостей:
+```shell script
+ansible-galaxy install -r environments/stage/requirements.yml
+```
+
+Создание инстансов Stage окружения:
+```shell script
+cd terraform/stage
+terraform apply
+```
+
+Деплой приложения на Stage окружение:
+```shell script
+cd ansible
+ansible-playbook playbooks/site.yml
+```
+
+Создание инстансов Prod окружения:
+```shell script
+cd terraform/prod
+terraform apply
+```
+
+Деплой приложения на Prod окружение:
+```shell script
+cd ansible
+ansible-playbook -i environments/prod/inventory.gcp.yml  playbooks/site.yml
 ```
 
 # ДЗ - Занятие 12

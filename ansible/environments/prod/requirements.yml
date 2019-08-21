@@ -1,3 +1,6 @@
 ---
 - src: jdauphant.nginx
   version: v2.21.1
+
+- src: https://github.com/alakhno/otus-ansible-role-db.git
+  name: db
